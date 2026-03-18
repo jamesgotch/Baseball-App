@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baseball Stats Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">&#9917;</span>
+        <span class="logo-text">BaseballStats</span>
+      </div>
+      <nav class="header-nav">
+        <span class="nav-label">Historical Data Explorer</span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">America&#8217;s Pastime</p>
+      <h1 class="hero-title">Baseball Statistics<br /><span class="hero-title-accent">Explorer</span></h1>
+      <p class="hero-subtitle">Dive deep into historical batting, pitching, and team data spanning over a century of professional baseball.</p>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    <!-- Filter card -->
+    <section class="filter-section">
+      <div class="section-header">
+        <h2 class="section-title">Browse by Season</h2>
+        <p class="section-desc">Select a year to explore team and player statistics for that season.</p>
+      </div>
+
+      <div class="filter-card">
+        <div class="filter-group">
+          <label class="filter-label" for="year-select">
+            <span class="filter-label-icon">&#128197;</span>
+            Season Year
+          </label>
+          <div class="select-wrapper">
+            <select id="year-select" class="year-select" disabled>
+              <option value="">Loading seasons&#8230;</option>
+            </select>
+            <span class="select-arrow">&#9660;</span>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="explore-btn" disabled>
+          Explore Season
+        </button>
+      </div>
+    </section>
+
+    <!-- Stats strip -->
+    <section class="stats-strip">
+      <div class="stat-tile">
+        <span class="stat-tile-value" id="stat-seasons">&#8212;</span>
+        <span class="stat-tile-label">Seasons Available</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-tile-value">MLB</span>
+        <span class="stat-tile-label">League Coverage</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-tile-value">&#9733;</span>
+        <span class="stat-tile-label">Historical Records</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>&copy; 2026 BaseballStats Explorer &mdash; Powered by Lahman Baseball Database</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

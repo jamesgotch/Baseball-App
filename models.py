@@ -1,5 +1,5 @@
 from typing import Optional
-from sqlmodel import SQLModel, Field, Relationship, create_engine, Session
+from sqlmodel import SQLModel, Field, Relationship, create_engine, Session, select
 from pydantic import ConfigDict
 
 # Database configuration
@@ -89,9 +89,6 @@ class Teams(SQLModel, table=True):
     teamIDlahman45: Optional[str] = None
     teamIDretro: Optional[str] = None
 
-    # Relationship to batting records
-    batting_records: list["Batting"] = Relationship(back_populates="team")
-
 
 class Batting(SQLModel, table=True):
     model_config = ConfigDict(populate_by_name=True)
@@ -119,14 +116,42 @@ class Batting(SQLModel, table=True):
     SF: Optional[int] = None
     GIDP: Optional[int] = None
 
-    # Relationships to referenced tables
+    # Relationship to People
     player: Optional[People] = Relationship(back_populates="batting_records")
-    team: Optional[Teams] = Relationship(back_populates="batting_records")
 
 
 def create_db_and_tables():
     """Create all database tables."""
     SQLModel.metadata.create_all(engine)
+
+
+def populate_db():
+    """Populate the database from CSV files. Skips if data already exists."""
+    import pandas as pd
+
+    with Session(engine) as session:
+        if session.exec(select(People)).first():
+            print("Database already populated, skipping.")
+            return
+
+        people_df = pd.read_csv('people.csv').drop('ID', axis=1)
+        teams_df = pd.read_csv('teams.csv')
+        batting_df = pd.read_csv('Batting.csv')
+
+        def clean(d):
+            return {k: None if pd.isna(v) else v for k, v in d.items()}
+
+        for _, row in people_df.iterrows():
+            session.add(People(**clean(row.to_dict())))
+
+        for _, row in teams_df.iterrows():
+            session.add(Teams.model_validate(clean(row.to_dict())))
+
+        for _, row in batting_df.iterrows():
+            session.add(Batting.model_validate(clean(row.to_dict())))
+
+        session.commit()
+        print("Database populated successfully.")
 
 
 def get_session():
