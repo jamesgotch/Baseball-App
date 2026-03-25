@@ -78,7 +78,7 @@ async function loadTeams(year) {
 
     const grouped = {};
     teams.forEach(team => {
-      const lead = team.lead || 'Unknown';
+      const lead = team.league || team.lead || 'Unknown';
       const division = team.division || 'Unknown';
       const name = team.name;
 
@@ -120,7 +120,7 @@ async function loadTeams(year) {
           .map(team => {
             const name = escapeHtml(team.name);
             const teamID = escapeHtml(team.teamID);
-            const teamLead = escapeHtml(team.lead);
+            const teamLead = escapeHtml(team.league || team.lead || 'Unknown');
             const teamDivision = escapeHtml(team.division);
             const wins = Number(team.wins || 0);
             return `<li><button class="team-btn" data-team-id="${teamID}" data-team-name="${name}" data-lead="${teamLead}" data-division="${teamDivision}" type="button">${name} (${wins} wins)</button></li>`;
